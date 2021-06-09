@@ -1,0 +1,20 @@
+<div class="col-xl-2 col-md-3 col-sm-6">
+    <div class="card">
+        <img class="card-img-top img-card" src="./img/app-icons/1.webp" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">App 1</h5>
+          <p class="card-text">Desarrollador 1</p>
+          <p class="card-text">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+          </p>
+          <p class="card-text"><small class="text-muted"><strong>$45</strong></small></p>
+        </div>
+    </div>
+</div>
+
+<i class="fas fa-star"></i>
+    <i class="far fa-star"></i>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Amazon Appstore</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/all.css"><!--FontAwesome-->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/c0d32cfc92.js" crossorigin="anonymous"></script>s
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top navbarmine">
+        <a class="navbar-brand" href="#"><img class="img-logo" src="./img/logo.png" alt=""></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <form class="form-inline my-2 my-lg-0 ml-auto">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                <button class="btn btn-secondary my-2 my-sm-0 btn-search" type="submit"><img class="img-search" src="./img/search.png" alt=""></button>
+            </form>
+        </div>
+    </nav>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12 col-md-12 col-sm-12">
+                    <select id="select-cate" class="select-cat form-select form-select-lg mb-3 " aria-label=".form-select-lg example">
+                        <option selected>Seleccione una Categoria</option>
+                      
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4 my-2">
+                    <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#modalNuevaApp">New App</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <br><br>
+    <section>
+        <div class="container"> <!---container--> 
+            <div id= "aplicaciones" class="row"><!--row--> 
+                
+            </div><!---row--> 
+        </div> <!---container--> 
+
+    </section>
+    
+    <!-- Modal Para cada Aplicacion-->
+    <div class="modal fade" id="modalApp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 div-ss">
+                                <img class="ss-modal" src="./img/app-screenshots/1.webp" alt="">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <img class="ss-modal" src="./img/app-icons/1.webp" alt="">
+                            </div>
+                            <div class="col-8">
+                                <h5>App 1</h5>
+                                <p>Desarrollador 1</p>
+                                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
+                                <h6>$5</h6>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 stars-modal">estrellitas</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2">
+                                <img class="ss-modal" src="./img/user.webp" alt="imagenusuario">
+                            </div>
+                            <div class="col-10">
+                                <h6>usuario 1</h6>
+                                <p>comentario lorem ipsun dolor sit, consectetur</p>
+                            </div>
+                            <hr class="ss-modal">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!----Modal para agregar una nueva apliacion----->
+    <div class="modal fade" id="modalNuevaApp" tabindex="-1" role="dialog" aria-labelledby="modalNuevaApp" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalNuevaApp">Nueva App</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                      <label for="nameApp">Nombre Aplicacion</label>
+                      <input type="text" class="form-control" id="nameApp" placeholder=" name app">
+                      <br>
+                      <label for="nameDevelopment">Nombre Desarrollador</label>
+                      <input type="text" class="form-control" id="nameDevelopment" placeholder=" name development">
+
+                    </div>
+                    <div class="form-group">
+                      <label for="select-calificacion">Calificacion</label>
+                      <select class="form-control" id="select-calificacion">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                        <select class="form-control" name="img" id="img">
+                            
+                        </select>
+                    </div>
+                  </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-primary" onclick="guardar()">Guardar</button>
+            </div>
+          </div>
+        </div>
+    </div>
+              
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/controlador.js"></script>
+</body>
+</html>

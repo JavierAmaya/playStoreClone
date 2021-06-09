@@ -1,0 +1,65 @@
+body {
+    padding-top: 5rem;
+}
+.starter-template {
+    padding: 3rem 1.5rem;
+    text-align: center;
+}
+
+.navbarmine{
+    background-color: black!important;
+}
+
+.img-logo{
+    width: 70%;
+    height: 70%;
+}
+
+.search-btn{
+    margin-left: 70%;
+}
+
+.select-cat{
+    width: 100%;
+    height: 100%;
+}
+
+.img-search{
+    width: 15px;
+    height: 15px;
+}
+
+.btn-search {
+    background-color: orange;
+}
+
+.card:hover {
+    background-color: orange;
+}
+
+.img-card{
+    width: 90%;
+    margin: auto;
+    margin-top: 8px;
+}
+
+.checked {
+    color: orange;
+}
+
+.margin-cards{
+    margin-bottom: 10px;
+}
+
+.ss-modal{
+    width: 100%;
+}
+
+.div-ss{
+    margin-bottom: 15px;
+}
+
+.stars-modal{
+    text-align: center;
+}
+
