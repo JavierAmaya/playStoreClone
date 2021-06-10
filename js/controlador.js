@@ -178,10 +178,10 @@ selectImagenes();
 
 
 function generarCategorias() {
-    let valCat = 0;
+    let valCat = -1;
     categorias.forEach(element => {
         document.getElementById('select-cate').innerHTML+=`
-            <option value="${valCat+1}">${element.nombreCategoria}</option>
+            <option value="${valCat+=1}">${element.nombreCategoria}</option>
 
         `;
     });
@@ -189,10 +189,10 @@ function generarCategorias() {
 }
 
 function generarCategoriasModal() {
-    let valCat = 0;
+    let valCat = -1;
     categorias.forEach(element => {
         document.getElementById('select-cate-modal').innerHTML+=`
-            <option value="${valCat+1}">${element.nombreCategoria}</option>
+            <option value="${valCat+=1}">${element.nombreCategoria}</option>
 
         `;
     });
@@ -238,7 +238,51 @@ function guardar() {
 function eliminar(indice, icategoria) {
     console.log('eliminar',indice);
 
+    //let aplics = JSON.parse(localStorage.getItem('aplicaciones'));
+
     console.log(categorias[icategoria].aplicaciones[indice]);
     categorias[icategoria].aplicaciones.splice(indice,1);
+    //console.log(aplics);
+    //localStorage.setItem('aplicaciones',aplics);
     generarAplicacionesLocalS();
+}
+
+function appsCat() {
+   let indice = document.getElementById('select-cate').value; 
+   let estrellas = '';
+   let contadorCat = indice;
+
+   document.getElementById('aplicaciones').innerHTML = '';
+
+    categorias[indice].aplicaciones.forEach(element => {
+        console.log(element);
+        estrellas = '';
+
+        for (let i = 0; i < element.calificacion; i++) {
+            estrellas +='<i class="fas fa-star"></i>'
+        }
+        for (let i = 0; i < (5-element.calificacion); i++) {
+            estrellas +='<i class="far fa-star"></i>'
+        }
+        document.getElementById('aplicaciones').innerHTML += 
+            `<div class="col-xl-2 col-md-3 col-sm-6 margin-cards">
+                    <div class="card">
+                        <img class="card-img-top img-card" onClick="mostrarModal()"; src="${element.icono}" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">${element.nombre}</h5>
+                            <p class="card-text">${element.desarrollador}</p>
+                            <p class="card-text">
+                                ${estrellas}
+                            </p>
+                            <p class="card-text"><small class="text-muted"><strong>$45</strong></small></p>
+                        </div>
+                        <div class="card-footer">
+                          <small class="text-muted"><button type="button" class="btn btn-outline-danger btn-sm" onclick="eliminar(${indice},${contadorCat})"><i class="far fa-trash-alt"></i></button></small>
+                        </div>
+                    </div>
+            </div>`
+        ;
+    });
+
+
 }

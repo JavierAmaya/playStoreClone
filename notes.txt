@@ -18,3 +18,21 @@
 
 <i class="fas fa-star"></i>
     <i class="far fa-star"></i>
+
+
+    var localStorage = window.localStorage;
+    // guardar en local storage
+    //JSON.stringify convertir de json a cadena
+    localStorage.setItem('aplicaciones',JSON.stringify(categorias));
+
+    //leer de local storage
+    // JSON.parse convertir de cadena a JSON
+
+    let apps = JSON.parse(localStorage.getItem('aplicaciones'));
+
+    ///
+    /*if (localStorage.getItem('aplicaciones') == null){
+        localStorage.setItem('aplicaciones',JSON.stringify(categorias));
+    } else { // sino esta vacio, entonces se guarda lo que esta en el local storage
+        let apps = JSON.parse(localStorage.getItem('aplicaciones'));
+    }*/

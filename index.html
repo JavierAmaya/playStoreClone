@@ -28,7 +28,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-xl-12 col-md-12 col-sm-12">
-                    <select id="select-cate" class="select-cat form-select form-select-lg mb-3 " aria-label=".form-select-lg example">
+                    <select id="select-cate" class="select-cat form-select form-select-lg mb-3 " aria-label=".form-select-lg example" onchange="appsCat()">
                         <option selected>Seleccione una Categoria</option>
                       
                     </select>
@@ -90,7 +90,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button id="instalar-modal" type="button" class="btn btn-primary">Instalar</button>
                 </div>
             </div>
         </div>
