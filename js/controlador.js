@@ -178,6 +178,10 @@ selectImagenes();
 
 
 function generarCategorias() {
+    document.getElementById('select-cate').innerHTML='';
+    document.getElementById('select-cate').innerHTML= `
+     <option selected>Seleccione una Categoria</option>
+    `;
     let valCat = -1;
     categorias.forEach(element => {
         document.getElementById('select-cate').innerHTML+=`
@@ -231,6 +235,7 @@ function guardar() {
 
     localStorage.setItem('aplicaciones', JSON.stringify(categorias));
     generarAplicacionesLocalS();
+    generarCategorias();
     $('#modalNuevaApp').modal('hide');
 }
 
@@ -244,6 +249,7 @@ function eliminar(indice, icategoria) {
     categorias[icategoria].aplicaciones.splice(indice,1);
     //console.log(aplics);
     //localStorage.setItem('aplicaciones',aplics);
+    generarCategorias();
     generarAplicacionesLocalS();
 }
 
