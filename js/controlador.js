@@ -48,22 +48,45 @@ var categorias = [];
   console.log(categorias);
 })();
 
-function generarAplicaciones() {
+/// local storage
+
+var localStorage = window.localStorage;
+// guardar en local storage
+//JSON.stringify convertir de json a cadena
+//localStorage.setItem('aplicaciones',JSON.stringify(categorias));
+
+//leer de local storage
+// JSON.parse convertir de cadena a JSON
+//console.log(JSON.parse(localStorage.getItem('aplicaciones')));
+
+
+/*
+    si local storage esta vacio entonces guardar
+
+    if (localStorage.getItem('aplicaciones') == ''){
+        localStorage.setItem('aplicaciones', JSON.stringify(aplicaciones));
+    } else { // sino esta vacio, entonces se guarda lo que esta en el local storage
+        aplicaciones = JSON.parse(localStorage.getItem('aplicaciones'));
+    }
+ */
+
+
+/*function generarAplicaciones() {
     let estrellas = '';
     
-    categorias.forEach(app => {
-       app.aplicaciones.forEach(element => {
+     categorias.forEach(app => {
+        app.aplicaciones.forEach(element => {
         
-        estrellas = '';
-        for (let i = 0; i < element.calificacion; i++) {
-            estrellas +='<i class="fas fa-star"></i>'
-        }
+         estrellas = '';
+            for (let i = 0; i < element.calificacion; i++) {
+                estrellas +='<i class="fas fa-star"></i>'
+            }
 
-        for (let i = 0; i < (5-element.calificacion); i++) {
-            estrellas +='<i class="far fa-star"></i>'
-        }
-          document.getElementById('aplicaciones').innerHTML += 
-                    `<div class="col-xl-2 col-md-3 col-sm-6 margin-cards">
+            for (let i = 0; i < (5-element.calificacion); i++) {
+                estrellas +='<i class="far fa-star"></i>'
+            }
+            document.getElementById('aplicaciones').innerHTML += 
+                `<div class="col-xl-2 col-md-3 col-sm-6 margin-cards">
                         <div class="card" onClick="mostrarModal()";>
                             <img class="card-img-top img-card" src="${element.icono}" alt="Card image cap">
                             <div class="card-body">
@@ -79,8 +102,67 @@ function generarAplicaciones() {
             ;
        });
     });
-}
+}*/
 
+
+function generarAplicacionesLocalS() {
+    var localStorage = window.localStorage;
+    // guardar en local storage
+    //JSON.stringify convertir de json a cadena
+    localStorage.setItem('aplicaciones',JSON.stringify(categorias));
+
+    //leer de local storage
+    // JSON.parse convertir de cadena a JSON
+
+    let apps = JSON.parse(localStorage.getItem('aplicaciones'));
+    
+    let estrellas = '';
+    document.getElementById('aplicaciones').innerHTML='';
+    apps.forEach(element => {
+        element.aplicaciones.forEach( (item, indice) => {
+            estrellas = '';
+            for (let i = 0; i < item.calificacion; i++) {
+                estrellas +='<i class="fas fa-star"></i>'
+            }
+
+            for (let i = 0; i < (5-item.calificacion); i++) {
+                estrellas +='<i class="far fa-star"></i>'
+            }
+
+            document.getElementById('aplicaciones').innerHTML += 
+                `<div class="col-xl-2 col-md-3 col-sm-6 margin-cards">
+                        <div class="card">
+                            <img class="card-img-top img-card" onClick="mostrarModal()"; src="${item.icono}" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">${item.nombre}</h5>
+                                <p class="card-text">${item.desarrollador}</p>
+                                <p class="card-text">
+                                    ${estrellas}
+                                </p>
+                                <p class="card-text"><small class="text-muted"><strong>$45</strong></small></p>
+                            </div>
+                            <div class="card-footer">
+                              <small class="text-muted"><button type="button" class="btn btn-outline-danger btn-sm" onclick="eliminar(${indice},${categoria})"><i class="far fa-trash-alt"></i></button></small>
+                            </div>
+
+                        </div>
+                </div>`
+            ;
+        });    
+
+    });
+
+
+    /*
+        si local storage esta vacio entonces guardar
+
+        if (localStorage.getItem('aplicaciones') == ''){
+            localStorage.setItem('aplicaciones', JSON.stringify(aplicaciones));
+        } else { // sino esta vacio, entonces se guarda lo que esta en el local storage
+            aplicaciones = JSON.parse(localStorage.getItem('aplicaciones'));
+        }
+    */
+}
 
 function selectImagenes() {
     for (let i = 0; i < 50; i++) {
@@ -103,8 +185,20 @@ function generarCategorias() {
     });
     
 }
+
+function generarCategoriasModal() {
+    let valCat = 0;
+    categorias.forEach(element => {
+        document.getElementById('select-cate-modal').innerHTML+=`
+            <option value="${valCat+1}">${element.nombreCategoria}</option>
+
+        `;
+    });
+}
 generarCategorias();
-generarAplicaciones();
+//generarAplicaciones();
+generarCategoriasModal();
+generarAplicacionesLocalS();
 
 function mostrarModal() {
     $('#modalApp').modal('show');
@@ -125,11 +219,31 @@ function guardar() {
         icono: document.getElementById('img').value,
         imagenes: "",
         instalada: "",
-        nombre: document.getElementById('nameApp').value
+        nombre: document.getElementById('nameApp').value,
+        categoria : document.getElementById('select-cate-modal').value
     }
 
     console.log(app);
-
-    // aplicaciones.push(app);
     
+    categorias[app.categoria].aplicaciones.push(app);
+
+    localStorage.setItem('aplicaciones', JSON.stringify(categorias));
+    generarAplicacionesLocalS();
+    $('#modalNuevaApp').modal('hide');
+}
+
+
+function eliminar(indice) {
+    console.log('eliminar',indice);
+
+    console.log(categorias);
+  
+    categorias.forEach(element => {
+        element.aplicaciones.forEach(item => {
+            console.log(item);
+            item.splice(indice, 1);
+        });
+    });
+
+    //generarAplicacionesLocalS();
 }
