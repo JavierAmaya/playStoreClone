@@ -117,8 +117,10 @@ function generarAplicacionesLocalS() {
     let apps = JSON.parse(localStorage.getItem('aplicaciones'));
     
     let estrellas = '';
+    let contadorCat = -1;
     document.getElementById('aplicaciones').innerHTML='';
     apps.forEach(element => {
+        contadorCat+=1;
         element.aplicaciones.forEach( (item, indice) => {
             estrellas = '';
             for (let i = 0; i < item.calificacion; i++) {
@@ -142,7 +144,7 @@ function generarAplicacionesLocalS() {
                                 <p class="card-text"><small class="text-muted"><strong>$45</strong></small></p>
                             </div>
                             <div class="card-footer">
-                              <small class="text-muted"><button type="button" class="btn btn-outline-danger btn-sm" onclick="eliminar(${indice},${categoria})"><i class="far fa-trash-alt"></i></button></small>
+                              <small class="text-muted"><button type="button" class="btn btn-outline-danger btn-sm" onclick="eliminar(${indice},${contadorCat})"><i class="far fa-trash-alt"></i></button></small>
                             </div>
 
                         </div>
@@ -233,17 +235,10 @@ function guardar() {
 }
 
 
-function eliminar(indice) {
+function eliminar(indice, icategoria) {
     console.log('eliminar',indice);
 
-    console.log(categorias);
-  
-    categorias.forEach(element => {
-        element.aplicaciones.forEach(item => {
-            console.log(item);
-            item.splice(indice, 1);
-        });
-    });
-
-    //generarAplicacionesLocalS();
+    console.log(categorias[icategoria].aplicaciones[indice]);
+    categorias[icategoria].aplicaciones.splice(indice,1);
+    generarAplicacionesLocalS();
 }
