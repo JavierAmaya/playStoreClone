@@ -71,38 +71,6 @@ var localStorage = window.localStorage;
  */
 
 
-/*function generarAplicaciones() {
-    let estrellas = '';
-    
-     categorias.forEach(app => {
-        app.aplicaciones.forEach(element => {
-        
-         estrellas = '';
-            for (let i = 0; i < element.calificacion; i++) {
-                estrellas +='<i class="fas fa-star"></i>'
-            }
-
-            for (let i = 0; i < (5-element.calificacion); i++) {
-                estrellas +='<i class="far fa-star"></i>'
-            }
-            document.getElementById('aplicaciones').innerHTML += 
-                `<div class="col-xl-2 col-md-3 col-sm-6 margin-cards">
-                        <div class="card" onClick="mostrarModal()";>
-                            <img class="card-img-top img-card" src="${element.icono}" alt="Card image cap">
-                            <div class="card-body">
-                            <h5 class="card-title">${element.nombre}</h5>
-                            <p class="card-text">${element.desarrollador}</p>
-                            <p class="card-text">
-                                ${estrellas}
-                            </p>
-                            <p class="card-text"><small class="text-muted"><strong>$45</strong></small></p>
-                            </div>
-                        </div>
-                </div>`
-            ;
-       });
-    });
-}*/
 
 
 function generarAplicacionesLocalS() {
@@ -134,7 +102,7 @@ function generarAplicacionesLocalS() {
             document.getElementById('aplicaciones').innerHTML += 
                 `<div class="col-xl-2 col-md-3 col-sm-6 margin-cards">
                         <div class="card">
-                            <img class="card-img-top img-card" onClick="mostrarModal()"; src="${item.icono}" alt="Card image cap">
+                            <img class="card-img-top img-card" onClick="mostrarModal(${item.codigo})"; src="${item.icono}" alt="Card image cap">
                             <div class="card-body">
                                 <h5 class="card-title">${item.nombre}</h5>
                                 <p class="card-text">${item.desarrollador}</p>
@@ -166,6 +134,7 @@ function generarAplicacionesLocalS() {
     */
 }
 
+// funciones para la modal crear nueva app
 function selectImagenes() {
     for (let i = 0; i < 50; i++) {
         document.getElementById('img').innerHTML += `
@@ -175,40 +144,16 @@ function selectImagenes() {
     }
 }
 selectImagenes();
-
-
-function generarCategorias() {
-    document.getElementById('select-cate').innerHTML='';
-    document.getElementById('select-cate').innerHTML= `
-     <option selected>Seleccione una Categoria</option>
-    `;
-    let valCat = -1;
-    categorias.forEach(element => {
-        document.getElementById('select-cate').innerHTML+=`
-            <option value="${valCat+=1}">${element.nombreCategoria}</option>
-
-        `;
-    });
-    
-}
-
-function generarCategoriasModal() {
-    let valCat = -1;
-    categorias.forEach(element => {
-        document.getElementById('select-cate-modal').innerHTML+=`
-            <option value="${valCat+=1}">${element.nombreCategoria}</option>
-
-        `;
-    });
-}
-generarCategorias();
-//generarAplicaciones();
-generarCategoriasModal();
 generarAplicacionesLocalS();
 
-function mostrarModal() {
-    $('#modalApp').modal('show');
+function categoriaSeleccionadaModal(idCat) {
+    console.log('categoria seleccionada',idCat);
+    document.getElementById('cat_new_app').value = idCat;
+    document.getElementById("cat_new_app").setAttribute('readonly', true);
+    document.getElementById("cat_new_app").setAttribute('value', idCat);
 }
+
+
 
 
 
@@ -226,7 +171,7 @@ function guardar() {
         imagenes: "",
         instalada: "",
         nombre: document.getElementById('nameApp').value,
-        categoria : document.getElementById('select-cate-modal').value
+        categoria : document.getElementById('cat_new_app').value
     }
 
     console.log(app);
@@ -257,6 +202,8 @@ function appsCat() {
    let indice = document.getElementById('select-cate').value; 
    let estrellas = '';
    let contadorCat = indice;
+   //cambia el valor en la modal nueva app
+   categoriaSeleccionadaModal(indice);
 
    document.getElementById('aplicaciones').innerHTML = '';
 
@@ -273,7 +220,7 @@ function appsCat() {
         document.getElementById('aplicaciones').innerHTML += 
             `<div class="col-xl-2 col-md-3 col-sm-6 margin-cards">
                     <div class="card">
-                        <img class="card-img-top img-card" onClick="mostrarModal()"; src="${element.icono}" alt="Card image cap">
+                        <img class="card-img-top img-card" onClick="mostrarModal(${element.codigo})"; src="${element.icono}" alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title">${element.nombre}</h5>
                             <p class="card-text">${element.desarrollador}</p>
@@ -291,4 +238,297 @@ function appsCat() {
     });
 
 
+}
+
+/// utilizando IndexDB
+
+// Ejemplo IndexDB
+
+
+
+
+/*  Mi ejemplo de forma 1
+var request = self.indexedDB.open('AppStore',1);
+
+request.onsuccess = event =>{
+    var cats = categorias;
+
+    console.log('variable cats', cats);
+
+    var db = event.target.result;
+
+    var transaction = db.transaction('categorias','readwrite');
+
+    transaction.onsuccess = event => {
+        console.log('peticion de transaccion completada');
+    }
+
+    var appStoreStore = transaction.objectStore ('categorias');
+
+    cats.forEach(categoria => {
+        var db_op_req = appStoreStore.add(categoria);
+
+        db_op_req.onsuccess = ()=>{
+            console.log(event.target.result == categoria.nombreCategoria);
+        }
+    });
+
+    appStoreStore.count().onsuccess = (event) => {
+        console.log('cantidad de items',event.target.result);
+    };
+
+    var datafromDB = transaction.objectStore('categorias');
+    console.log('data from db', datafromDB);
+    
+};
+
+request.onerror = function(event) {
+    console.log('[onerror]', request.error);
+};
+
+request.onupgradeneeded = function(event) {
+    var db = event.target.result;
+    var appStoreStore = db.createObjectStore('categorias', {keyPath: 'key',autoIncrement: true});
+};
+
+*/
+
+
+// Mi ejemplo de forma 2
+
+
+const indexedDB = window.indexedDB;
+
+let db ;
+cleanIndexDB();
+
+const conexion = indexedDB.open('AppStore',1);
+
+conexion.onsuccess = () =>{
+    db = conexion.result;[]
+
+    console.log('base de datos abierta',db);
+    setAllCats();
+
+};
+
+// funcion cuando se cree la base de datos 
+conexion.onupgradeneeded = (e) =>{
+    db = e.target.result;
+    console.log('base de datos creada', db);
+
+    const StoreCategorias = db.createObjectStore('categorias', {keyPath: 'key',autoIncrement: true} );
+
+    //generarCategorias();
+};
+
+conexion.onerror = (error) => {
+    console.log('error ', error);
+};
+
+const getAllItems = () => {
+    const transaccion = db.transaction(['categorias'],'readonly'); 
+    const coleccionObjetos = transaccion.objectStore('categorias');
+    const conexion = coleccionObjetos.openCursor();
+
+    console.log('lista de tareas');
+
+    conexion.onsuccess = (e) => {
+        const cursor = e.target.result;
+
+
+        if (cursor) {
+            cursor.continue();
+            
+        }else if ( cursor == undefined) {
+            console.log('no hay tareas en la lista');
+        }
+    }
+
+}
+
+
+const setAllCats= () => {
+    var dataCategorias = categorias;
+
+    const transaccion = db.transaction('categorias','readwrite'); 
+    const coleccionObjetos = transaccion.objectStore('categorias');
+
+    dataCategorias.forEach(element => {
+        const conexion = coleccionObjetos.add(element);
+    });
+
+    getAllItems();
+    generarCategorias();
+}
+
+const setItem = (info) => {
+
+    const transaccion = db.transaction('categorias','readwrite'); 
+    const coleccionObjetos = transaccion.objectStore('categorias');
+    const conexion = coleccionObjetos.add(info);
+    getAllItems();
+}
+
+const getItem = (key) => {
+    const transaccion = db.transaction(['categorias'],'readonly'); 
+    const coleccionObjetos = transaccion.objectStore('categorias');
+    const conexion = coleccionObjetos.get(key);
+
+    conexion.onsuccess = (e) => {
+        console.log(conexion.result);
+    }
+
+
+} // solo nos devuelve un registro
+
+
+
+function generarCategorias() {
+
+    const transaccion = db.transaction(['categorias'],'readonly'); 
+    const coleccionObjetos = transaccion.objectStore('categorias');
+    const conexion = coleccionObjetos.openCursor();
+
+    console.log('lista de categorias');
+    document.getElementById('select-cate').innerHTML='';
+    document.getElementById('select-cate').innerHTML= `
+    <option selected>Seleccione una Categoria</option>
+    `;
+    let valCat = -1;
+
+    conexion.onsuccess = (e) => {
+        const cursor = e.target.result;  
+        
+        if(cursor){
+            cursor.continue();
+
+            document.getElementById('select-cate').innerHTML+=`
+                <option value="${valCat+=1}">${cursor.value.nombreCategoria}</option>
+            `;
+          
+
+        } else {
+            console.log('all items display')
+        }
+    }
+
+    
+
+    
+}
+
+
+function mostrarModal(codigo) {
+    $('#modalApp').modal('show');
+
+    let cats = JSON.parse(localStorage.getItem('aplicaciones'));
+
+    document.getElementById('imgs-carousel').innerHTML = '';
+    
+    cats.forEach(aplis => {
+        aplis.aplicaciones.forEach(element => {
+
+            if (element.codigo == codigo) {
+                // imagenes del carousel
+                element.imagenes.forEach((imgs, index) => {
+                    if (index == 0) {
+                        document.getElementById('imgs-carousel').innerHTML = `
+                         <div class="carousel-item active">
+                             <img class="d-block w-100" src="./${imgs}" alt="First slide">
+                         </div>
+                        `;
+                    }else {
+                        document.getElementById('imgs-carousel').innerHTML += `
+                            <div class="carousel-item">
+                                <img class="d-block w-100" src="./${imgs}" alt="First slide">
+                            </div>
+                        `;  
+                    }
+                });  
+
+                // nombre de la app
+                document.getElementById('nameAppModal').innerHTML = `
+                    ${element.nombre}
+                `;
+
+                //nombre del desarrollador
+                document.getElementById('idAppDevModal').innerHTML = `
+                    ${element.desarrollador}
+                `;
+
+                /// para los comentarios
+                document.getElementById('comentarioAppModal').innerHTML = '';
+                element.comentarios.forEach(coments => {
+                    document.getElementById('comentarioAppModal').innerHTML += `
+                        <div class="col-2">
+                            <img class="ss-modal" src="./img/user.webp" alt="imagenusuario">
+                        </div>
+                        <div id="comentarioAppModal" class="col-10">
+                            <!-- aqui van los comentarios-->
+                            <div>
+                                <h6>${coments.usuario}</h6>
+                                <p>${coments.comentario}</p>
+                            </div>
+                        </div>
+                        <hr class="ss-modal">
+                    `;
+                });
+               
+                // para las estrellitas
+                estrellas = '';
+
+                for (let i = 0; i < element.calificacion; i++) {
+                    estrellas +='<i class="fas fa-star"></i>'
+                }
+                for (let i = 0; i < (5-element.calificacion); i++) {
+                    estrellas +='<i class="far fa-star"></i>'
+                }
+
+                document.getElementById('stars').innerHTML = `
+                    <p class="card-text">
+                      ${estrellas}
+                    </p>
+                `;
+
+                // para el icono de la imagen
+
+                document.getElementById('icon-img-modal').innerHTML = `
+                    <img class="ss-modal" src="./${element.icono}" alt="icono imagen">
+                `;
+
+                //botoncito de instalar
+                document.getElementById('buttons-mod-app').innerHTML = '';
+                document.getElementById('buttons-mod-app').innerHTML = `
+                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                `;
+
+                if (element.instalada == false) {
+                    document.getElementById('buttons-mod-app').innerHTML += `
+                      <button id="instalar-modal" type="button" class="btn btn-primary">Instalar</button>
+                    `;
+                }else {
+                    console.log('app ya instalada');
+                }
+
+            }
+
+        });
+        
+    });
+}
+
+function cleanIndexDB() {
+
+    var req = indexedDB.deleteDatabase('AppStore');
+
+    req.onsuccess = function () {
+        console.log("Deleted database successfully");
+    };
+    req.onerror = function () {
+        console.log("Couldn't delete database");
+    };
+    req.onblocked = function () {
+        console.log("Couldn't delete database due to the operation being blocked");
+    };
 }
